@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2020-04-22T07:03:17.126Z" agent="5.0 (Windows)" etag="NrWRuQucQOE-SAvAaerS" version="13.0.1" type="github">
+<mxfile host="app.diagrams.net" modified="2020-04-22T07:06:42.477Z" agent="5.0 (Windows)" etag="v-nc-2GJCETfg2ls43rD" version="13.0.1" type="github">
   <diagram id="C5RBs43oDa-KdzZeNtuy" name="Page-1">
-    <mxGraphModel dx="981" dy="526" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1569" math="0" shadow="0">
+    <mxGraphModel dx="981" dy="526" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1440" math="0" shadow="0">
       <root>
         <mxCell id="WIyWlLk6GJQsqaUBKTNV-0" />
         <mxCell id="WIyWlLk6GJQsqaUBKTNV-1" parent="WIyWlLk6GJQsqaUBKTNV-0" />
@@ -60,9 +60,6 @@
               <mxPoint x="360" y="380" />
             </Array>
           </mxGeometry>
-        </mxCell>
-        <mxCell id="iTn3R1EVZ1-h4n3S3Dmo-58" style="edgeStyle=orthogonalEdgeStyle;rounded=0;jumpStyle=gap;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;startArrow=none;startFill=0;strokeWidth=1;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="iTn3R1EVZ1-h4n3S3Dmo-15" target="iTn3R1EVZ1-h4n3S3Dmo-18">
-          <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="iTn3R1EVZ1-h4n3S3Dmo-15" value="Перекачиваем воду в жилой бокс водяным насосом" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
           <mxGeometry x="220" y="540" width="120" height="60" as="geometry" />
@@ -150,24 +147,17 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="iTn3R1EVZ1-h4n3S3Dmo-68" style="edgeStyle=orthogonalEdgeStyle;rounded=0;jumpStyle=gap;orthogonalLoop=1;jettySize=auto;html=1;startArrow=none;startFill=0;strokeWidth=1;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="iTn3R1EVZ1-h4n3S3Dmo-63">
-          <mxGeometry relative="1" as="geometry">
-            <mxPoint x="270" y="1000" as="targetPoint" />
-          </mxGeometry>
+        <mxCell id="iTn3R1EVZ1-h4n3S3Dmo-82" style="edgeStyle=orthogonalEdgeStyle;rounded=0;jumpStyle=gap;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;startArrow=none;startFill=0;strokeWidth=1;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="iTn3R1EVZ1-h4n3S3Dmo-63" target="iTn3R1EVZ1-h4n3S3Dmo-81">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="iTn3R1EVZ1-h4n3S3Dmo-63" value="Датчик потока воды насоса выкачивания показывает какой-либо поток?" style="rhombus;whiteSpace=wrap;html=1;container=1;collapsible=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
-          <mxGeometry x="210" y="870" width="120" height="110" as="geometry" />
+          <mxGeometry x="210" y="860" width="120" height="110" as="geometry" />
         </mxCell>
         <mxCell id="iTn3R1EVZ1-h4n3S3Dmo-67" value="Нет" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;" vertex="1" parent="iTn3R1EVZ1-h4n3S3Dmo-63">
           <mxGeometry x="20" y="100" width="40" height="20" as="geometry" />
         </mxCell>
         <mxCell id="iTn3R1EVZ1-h4n3S3Dmo-65" value="&lt;div&gt;Да&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
-          <mxGeometry x="310" y="880" width="30" height="20" as="geometry" />
-        </mxCell>
-        <mxCell id="iTn3R1EVZ1-h4n3S3Dmo-69" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" target="iTn3R1EVZ1-h4n3S3Dmo-72" parent="WIyWlLk6GJQsqaUBKTNV-1">
-          <mxGeometry relative="1" as="geometry">
-            <mxPoint x="269.98" y="1000.0000000000001" as="sourcePoint" />
-          </mxGeometry>
+          <mxGeometry x="310" y="870" width="30" height="20" as="geometry" />
         </mxCell>
         <mxCell id="iTn3R1EVZ1-h4n3S3Dmo-70" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" source="iTn3R1EVZ1-h4n3S3Dmo-72" target="iTn3R1EVZ1-h4n3S3Dmo-77" parent="WIyWlLk6GJQsqaUBKTNV-1">
           <mxGeometry relative="1" as="geometry">
@@ -181,7 +171,7 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="iTn3R1EVZ1-h4n3S3Dmo-72" value="Датчик уровня воды замкнут?" style="rhombus;whiteSpace=wrap;html=1;container=1;collapsible=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
-          <mxGeometry x="190.48000000000002" y="1030" width="159.5" height="120" as="geometry" />
+          <mxGeometry x="190.25000000000003" y="1050" width="159.5" height="120" as="geometry" />
         </mxCell>
         <mxCell id="iTn3R1EVZ1-h4n3S3Dmo-73" value="Нет" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;" vertex="1" parent="iTn3R1EVZ1-h4n3S3Dmo-72">
           <mxGeometry x="119.5" y="24" width="40" height="20" as="geometry" />
@@ -189,18 +179,13 @@
         <mxCell id="iTn3R1EVZ1-h4n3S3Dmo-74" value="Да" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;" vertex="1" parent="iTn3R1EVZ1-h4n3S3Dmo-72">
           <mxGeometry x="-0.5" y="24" width="30" height="20" as="geometry" />
         </mxCell>
-        <mxCell id="iTn3R1EVZ1-h4n3S3Dmo-75" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;startArrow=ERmany;startFill=0;strokeWidth=1;jumpStyle=gap;fixDash=0;" edge="1" source="iTn3R1EVZ1-h4n3S3Dmo-77" parent="WIyWlLk6GJQsqaUBKTNV-1">
+        <mxCell id="iTn3R1EVZ1-h4n3S3Dmo-75" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;startArrow=ERmany;startFill=0;strokeWidth=1;jumpStyle=gap;fixDash=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="iTn3R1EVZ1-h4n3S3Dmo-77" parent="WIyWlLk6GJQsqaUBKTNV-1" target="iTn3R1EVZ1-h4n3S3Dmo-72">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="269.98" y="1030" as="targetPoint" />
             <Array as="points">
-              <mxPoint x="390" y="1010" />
-              <mxPoint x="270" y="1010" />
+              <mxPoint x="390" y="1040" />
+              <mxPoint x="270" y="1040" />
             </Array>
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="iTn3R1EVZ1-h4n3S3Dmo-76" style="edgeStyle=orthogonalEdgeStyle;rounded=0;jumpStyle=gap;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;startArrow=none;startFill=0;strokeWidth=1;" edge="1" source="iTn3R1EVZ1-h4n3S3Dmo-77" parent="WIyWlLk6GJQsqaUBKTNV-1">
-          <mxGeometry relative="1" as="geometry">
-            <mxPoint x="264.98" y="1310" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="iTn3R1EVZ1-h4n3S3Dmo-77" value="Перекачиваем воду в жилой бокс водяным насосом" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
@@ -218,6 +203,14 @@
         </mxCell>
         <mxCell id="iTn3R1EVZ1-h4n3S3Dmo-79" value="&lt;div&gt;НЕ перекачиваем воду в жилой бокс&lt;/div&gt;&lt;div&gt;водяным насосом&lt;br&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
           <mxGeometry x="109.98000000000002" y="1170" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="iTn3R1EVZ1-h4n3S3Dmo-83" style="edgeStyle=orthogonalEdgeStyle;rounded=0;jumpStyle=gap;orthogonalLoop=1;jettySize=auto;html=1;startArrow=none;startFill=0;strokeWidth=1;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="iTn3R1EVZ1-h4n3S3Dmo-81">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="270" y="1050" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="iTn3R1EVZ1-h4n3S3Dmo-81" value="&lt;div&gt;Выключаем насос выкачивания воды из жилого бокса&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="210" y="980" width="120" height="40" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
