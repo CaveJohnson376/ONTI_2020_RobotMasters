@@ -26,7 +26,7 @@ UltraSonicDistanceSensor distSensor(triggerPin, echoPin);
 
 void setup() {
   Serial.begin(9600);
-
+  Serial.println("Code start.");
   pinMode(pumpDirPin1, OUTPUT);
   pinMode(pumpDirPin2, OUTPUT);
   pinMode(pumpSpeedPin1, OUTPUT);
@@ -51,34 +51,42 @@ void loop() {
     changeAllWater();
   }
   if (CO2 > CO2Opt + dCO2 / 2) {
+    Serial.println("Venting air...");
     while (CO2 > CO2Opt - dCO2 / 2) {
       digitalWrite(ventRelayPin, HIGH);
       CO2 = mq135.readCO2();
       delay(200);
     }
     digitalWrite(ventRelayPin, LOW);
+    Serial.println("Finished venting.");
   }
 }
 
 void changeAllWater() { // Заменяет всю воду на новую
+  Serial.println("Changing water...");
   removeAllWater();
   fillToWaterSensorLevel();
+  Serial.println("Finished changing water.");
 }
 
 void removeAllWater() { // Убирает всю воду из бокса
+  Serial.println("Removing water...");
   while (distSensor.measureDistanceCm() < distToFloor) {
     changeOutPumpState(true);
     delay(200);
   }
   changeOutPumpState(false);
+  Serial.println("Finished removing water.");
 }
 
 void fillToWaterSensorLevel() { // Заполняет бокс водой до уровня датчика воды
+  Serial.println("Filling water...");
   while (digitalRead(pinWaterSensor) == 0) {
     changeInPumpState(true);
     delay(20);
   }
   changeInPumpState(false);
+  Serial.println("Finished filling water.");
 }
 
 void changeInPumpState(bool state) { // Включает/выключает насос в боксе с водой
@@ -90,6 +98,7 @@ void changeOutPumpState(bool state) { // Включавет/выключает �
 }
 
 void gasCalibration() { // Калибровка оптимального уровня углекислого газа
+  Serial.println("Calibrating optimal gas levels...");
   fillToWaterSensorLevel()
   CO2Opt = mq135.readCO2();
   delay(10000);
@@ -97,5 +106,6 @@ void gasCalibration() { // Калибровка оптимального уро�
   CO2Opt = CO2Opt / 2;
   Serial.print("Optimal Gas Level(const) = ");
   Serial.println(CO2Opt);
+  Serial.println("Finished calibrating.");
   return ;
 }
