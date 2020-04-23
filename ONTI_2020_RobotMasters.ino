@@ -90,11 +90,7 @@ void changeOutPumpState(bool state) { // Включавет/выключает �
 }
 
 void gasCalibration() { // Калибровка оптимального уровня углекислого газа
-  changeInPumpState(true); // Начинаем заливать воду
-  while (digitalRead(pinWaterSensor) == 0) {
-    delay(20);
-  }
-  changeInPumpState(false);
+  fillToWaterSensorLevel()
   CO2Opt = mq135.readCO2();
   delay(10000);
   CO2Opt += mq135.readCO2();
