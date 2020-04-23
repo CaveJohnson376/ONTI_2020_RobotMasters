@@ -2,36 +2,41 @@
 #include <TroykaMQ.h>
 
 
-
 // Пины и константы
-
+#define distToFloor 13
 #define echoPin 11
 #define triggerPin 10
-#define PIN_MQ135 A0                 // Датчик газа
-#define dCO2 20                      // Максимальное значение отклонения уровня газа
-#define pinWaterSensor 12                   // Датчик перелива
-#define pumpDirPin1 4                   // Первая помпа направление (пин моторшилда H1)
-#define pumpSpeedPin1 5                   // Первая помпа скорость (пин моторшилда E1)
-#define pumpDirPin2 7                   // Вторая помпа направление (пин моторшилда H2)
-#define pumpSpeedPin2 6                   // Вторая помпа скорость (пин моторшилда E1)
+#define PIN_MQ135 A0            // Датчик газа
+#define ventRelayPin A5         // Реле вентилятора
+#define dCO2 20                 // Максимальное значение отклонения уровня газа
+#define pinWaterSensor 12       // Датчик перелива
+#define pumpDirPin1 4           // Первая помпа направление (пин моторшилда H1)
+#define pumpSpeedPin1 5         // Первая помпа скорость (пин моторшилда E1)
+#define pumpDirPin2 7           // Вторая помпа направление (пин моторшилда H2)
+#define pumpSpeedPin2 6         // Вторая помпа скорость (пин моторшилда E1)
 
 // Переменные
-uint8_t pumpSpeed = 0;                 // Скорости помп
-bool    pumpDir = HIGH;              // Направления помп
-int     CO2Opt     = 0;// Среднее значение уровня газа
-int     CO2 = 0;
+uint8_t pumpSpeed = 0;          // Скорости помп
+bool pumpDir = HIGH;            // Направления помп
+int CO2Opt = 0;                 // Среднее значение уровня газа
+int CO2 = 0;
+
 MQ135 mq135(PIN_MQ135);
 UltraSonicDistanceSensor distSensor(triggerPin, echoPin);
 
-void setup(){
+void setup() {
   Serial.begin(9600);
 
   pinMode(pumpDirPin1, OUTPUT);
-  digitalWrite(pumpDirPin1, pumpDir);
-  pinMode(pumpDirPin2, OUTPUT); digitalWrite(pumpDirPin2, pumpDir);
-  pinMode(pumpSpeedPin1, OUTPUT); changeOutPumpState(false); // Выключаем в самом начале помпу в жилом боксе
-  pinMode(pumpSpeedPin2, OUTPUT); changeInPumpState(false); // Выключаем в самом начале помпу в боксе с водой
+  pinMode(pumpDirPin2, OUTPUT);
+  pinMode(pumpSpeedPin1, OUTPUT);
+  pinMode(pumpSpeedPin2, OUTPUT);
   pinMode(pinWaterSensor, INPUT);
+  digitalWrite(pumpDirPin1, pumpDir);
+  digitalWrite(pumpDirPin2, pumpDir);
+  changeOutPumpState(false); // Выключаем в самом начале помпу в жилом боксе
+  changeInPumpState(false);  // Выключаем в самом начале помпу в боксе с водой
+
   delay(60000);
   mq135.calibrate();
   Serial.print("CO2(0) = ");
@@ -40,8 +45,40 @@ void setup(){
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
+  fillToWaterSensorLevel();
+  CO2 = mq135.readCO2();
+  if (CO2 < CO2Opt - dCO2 / 2) {
+    changeAllWater();
+  }
+  if (CO2 > CO2Opt + dCO2 / 2) {
+    while (CO2 > CO2Opt - dCO2 / 2) {
+      digitalWrite(ventRelayPin, HIGH);
+      CO2 = mq135.readCO2();
+      delay(200);
+    }
+    digitalWrite(ventRelayPin, LOW);
+  }
+}
 
+void changeAllWater() { // Заменяет всю воду на новую
+  removeAllWater();
+  fillToWaterSensorLevel();
+}
+
+void removeAllWater() { // Убирает всю воду из бокса
+  while (distSensor.measureDistanceCm() < distToFloor) {
+    changeOutPumpState(true);
+    delay(200);
+  }
+  changeOutPumpState(false);
+}
+
+void fillToWaterSensorLevel() { // Заполняет бокс водой до уровня датчика воды
+  while (digitalRead(pinWaterSensor) == 0) {
+    changeInPumpState(true);
+    delay(20);
+  }
+  changeInPumpState(false);
 }
 
 void changeInPumpState(bool state) { // Включает/выключает насос в боксе с водой
@@ -52,10 +89,10 @@ void changeOutPumpState(bool state) { // Включавет/выключает �
   digitalWrite(pumpSpeedPin1, state);
 }
 
-void gasCalibration(){ // Калибровка
+void gasCalibration() { // Калибровка оптимального уровня углекислого газа
   changeInPumpState(true); // Начинаем заливать воду
-  while(digitalRead(pinWaterSensor) == 0){
-    delay(1);
+  while (digitalRead(pinWaterSensor) == 0) {
+    delay(20);
   }
   changeInPumpState(false);
   CO2Opt = mq135.readCO2();
