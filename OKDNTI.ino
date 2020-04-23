@@ -1,29 +1,31 @@
 #include <TroykaMQ.h>
-
 #include <iarduino_HC_SR04.h>
 
 
-// имя для пина, к которому подключен датчик
-#define PIN_MQ135         A0
+// Пины и константы
 
-const int     dCO2    = 20;
-const uint8_t pinWDat = 12;  
-const uint8_t pinH1   = 4;                                   // Создаём константу указывая номер вывода H1 MotorShield (он управляет направлением 1 мотора)
-const uint8_t pinE1   = 5;                                   // Создаём константу указывая номер вывода E1 MotorShield (он управляет скоростью    1 мотора)
-const uint8_t pinE2   = 6;                                   // Создаём константу указывая номер вывода E2 MotorShield (он управляет скоростью    2 мотора)
-const uint8_t pinH2   = 7;                                   // Создаём константу указывая номер вывода H2 MotorShield (он управляет направлением 2 мотора)
-      uint8_t mSpeed  = 0;                                 // Создаём переменную для хранения скорости    моторов
-      bool    mDirect = HIGH;                                // Создаём переменную для хранения направления моторов
-      int     CO2     = 0;
+#define PIN_MQ135 A0                 // Датчик газа
+#define dCO2 20                      // Максимальное значение отклонения уровня газа
+#define pinWDat 12                   // Датчик перелива
+#define pumpdir1 4                   // Первая помпа направление (пин моторшилда H1)
+#define pumpspd1 5                   // Первая помпа скорость (пин моторшилда E1)
+#define pumpdir2 7                   // Вторая помпа направление (пин моторшилда H2)
+#define pumpspd2 6                   // Вторая помпа скорость (пин моторшилда E1)
+
+// Переменные
+uint8_t pumpspd = 0;                 // Скорости помп
+bool    pumpdir = HIGH;              // Направления помп
+int     CO2     = 0;                 // Среднее значение уровня газа
 
 MQ135 mq135(PIN_MQ135);
 
 void setup(){
   Serial.begin(9600);
-  pinMode(pinH1, OUTPUT); digitalWrite(pinH1, mDirect);          // Конфигурируем вывод pinH1 как выход и устанавливаем на нём уровень логического «0»
-  pinMode(pinE1, OUTPUT); digitalWrite(pinE1, LOW);          // Конфигурируем вывод pinE1 как выход и устанавливаем на нём уровень логического «0»
-  pinMode(pinE2, OUTPUT); digitalWrite(pinE2, LOW);          // Конфигурируем вывод pinE2 как выход и устанавливаем на нём уровень логического «0»
-  pinMode(pinH2, OUTPUT); digitalWrite(pinH2, mDirect);          // Конфигурируем вывод pinH2 как выход и устанавливаем на нём уровень логического «0»
+
+  pinMode(pumpdir1, OUTPUT); digitalWrite(pumpdir1, pumpdir);          // Конфигурируем вывод pinH1 как выход и устанавливаем на нём уровень логического «0»
+  pinMode(pumpdir2, OUTPUT); digitalWrite(pumpdir2, pumpdir);          // Конфигурируем вывод pinE1 как выход и устанавливаем на нём уровень логического «0»
+  pinMode(pumpspd1, OUTPUT); digitalWrite(pumpspd1, 0);
+  pinmode(pumpspd2, OUTPUT); digitalWrite(pumpspd2, 0);
   pinMode(pinWDat, INPUT);
   delay(60000);
   mq135.calibrate();
@@ -37,12 +39,12 @@ void loop() {
 
 }
 
-void colibration(){
-  digitalWrite(pinE1, HIGH);
+void colibration(){ // Калибровка
+  digitalWrite(pumpspd1, HIGH); // Начинаем заливать воду
   while(digitalRead(pinWDat)==0){
     delay(1);
   }
-  digitalWrite(pinE1, LOW);
+  digitalWrite(pumpspd1, LOW);
   delay(10000);
   CO2=mq135.readCO2()/2;
   Serial.print("CO2(const) = ");
