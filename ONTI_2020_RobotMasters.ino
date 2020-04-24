@@ -2,9 +2,9 @@
 #include <NewPing.h>
 #include <ARpcDevice.h>
 
-// Всё что связанно с Alterozoom
-const char *deviceName="Robot_Masters_Habitat_Device";//имя устройства
-const ARpcUuid deviceId("{835a5823-b43f-4b9c-9acf-04e758783720}");//идентификатор устройства
+// Всё, что связанно с Alterozoom
+const char *deviceName="Robot_Masters_Habitat_Device"; // Имя устройства
+const ARpcUuid deviceId("{835a5823-b43f-4b9c-9acf-04e758783720}");// Идентификатор устройства
 const char *sensorsDef="<sensors>"
 "<sensor name=\"co2_sensor\" type=\"u16_sv\"/>"// Датчик углекислого газа
 "<sensor name=\"ultrasonic\" type=\"f32_sv\"/>"// Ультразвук
@@ -32,24 +32,23 @@ ARpcDevice dev(300,&wcb,&deviceId,deviceName);
 
 // Пины и константы
 #define timeBetweenLoggingSensors 200
-#define distToFloor 13
-#define echoPin 11
-#define triggerPin 10
-#define PIN_MQ135 A0            // Датчик газа
-#define ventRelayPin A5         // Реле вентилятора
-#define dCO2 20                 // Максимальное значение отклонения уровня газа
-#define pinWaterSensor 12       // Датчик перелива
-#define pumpDirPin1 4           // Первая помпа направление (пин моторшилда H1)
-#define pumpSpeedPin1 5         // Первая помпа скорость (пин моторшилда E1), в боксе с водой
-#define pumpDirPin2 7           // Вторая помпа направление (пин моторшилда H2)
-#define pumpSpeedPin2 6         // Вторая помпа скорость (пин моторшилда E1), в жилом боксе
+#define distToFloor 13          // Расстояние от ультразвукового датчика расстояния до низа жилого бокса
+#define echoPin 11              // Пин ECHO ультразвукового датчика расстояния
+#define triggerPin 10           // Пин TRIG ультразвукового датчика расстояния
+#define PIN_MQ135 A0            // Пин датчика газа
+#define ventRelayPin A5         // Пин реле вентилятора
+#define dCO2 20                 // Максимальное значение отклонения уровня углекислого газа
+#define pinWaterSensor 12       // Пин датчик воды
+#define pumpDirPin1 4           // Пин направления первой помпы (пин моторшилда H1)
+#define pumpSpeedPin1 5         // Пин скорости первой помпы (пин моторшилда E1), в боксе с водой
+#define pumpDirPin2 7           // Пин направления второй помпы (пин моторшилда H2)
+#define pumpSpeedPin2 6         // Пин скорости второй помпы (пин моторшилда E1), в жилом боксе
+#define ultrasonicPowerPin 8    // Пин VCC ультразвукового датчика расстояния
 
 // Переменные
-uint8_t pumpSpeed = 0;          // Скорости помп
-bool pumpDir = HIGH;            // Направления помп
-int CO2Opt = 0;                 // Среднее значение уровня газа
-int CO2 = 0;
-unsigned long long lastMeasurementTime = 0;
+int CO2Opt = 0; // Оптимальный уровень углекислого газа
+int CO2 = 0; // Текущий уровень углекислого газа
+unsigned long long lastMeasurementTime = 0; // Последнее время передачи значений датчиков в Alterozoom
 
 MQ135 mq135(PIN_MQ135);
 NewPing sonar(triggerPin, echoPin, 50);
@@ -63,15 +62,14 @@ void setup() {
   pinMode(pumpDirPin2, OUTPUT);
   pinMode(pumpSpeedPin1, OUTPUT);
   pinMode(pumpSpeedPin2, OUTPUT);
-  pinMode(pinWaterSensor, INPUT_PULLUP);
-  pinMode(8, OUTPUT);
-  digitalWrite(8, HIGH);
-  digitalWrite(pumpDirPin1, pumpDir);
-  digitalWrite(pumpDirPin2, pumpDir);
+  pinMode(pinWaterSensor, INPUT_PULLUP); // Второй выход датчика воды стоит на GND
+  digitalWrite(pumpDirPin1, HIGH);
+  digitalWrite(pumpDirPin2, HIGH);
   changeOutPumpState(false); // Выключаем в самом начале помпу в жилом боксе
   changeInPumpState(false);  // Выключаем в самом начале помпу в боксе с водой
-
-  delay(60000);
+  pinMode(ultrasonicPowerPin, OUTPUT);
+  digitalWrite(ultrasonicPowerPin, HIGH); // VCC ультрасоника стоит на цифровом пине
+  delay(60000); // Даём датчику углекислого газа время нагреться
   mq135.calibrate();
   Serial.print("CO2(0) = ");
   Serial.println(mq135.readCO2());
@@ -80,13 +78,13 @@ void setup() {
 }
 
 void loop() {
-  fillToWaterSensorLevel();
+  fillToWaterSensorLevel(); // Нужно чтобы у нас всегда была вода в жилом боксе
   CO2 = mq135.readCO2();
   logSensorMeasurements();
   Serial.print("CO2: ");
   Serial.print(CO2);
   Serial.println("ppm");
-  if (CO2 < CO2Opt - dCO2 / 2) {
+  if (CO2 < CO2Opt - dCO2 / 2) { // Если углекислого газа мало, то скорее всего вода выпустила уже весь, и нужно полностью заменить воду
     changeAllWater();
   }
   if (CO2 > CO2Opt + dCO2 / 2) {
@@ -143,8 +141,8 @@ void changeInPumpState(bool state) { // Включает/выключает на
   digitalWrite(pumpSpeedPin1, state);
 }
 
-void logSensorMeasurements() {
-  if (millis() - lastMeasurementTime >= timeBetweenLoggingSensors) {
+void logSensorMeasurements() { // Записывает значения датчиков в Alterozoom
+  if (millis() - lastMeasurementTime >= timeBetweenLoggingSensors) { // Не хотим записывать значения слишком часто
     char CO2Data[255];
     char ultrasonicData[255];
     String(mq135.readCO2()).toCharArray(CO2Data, 255);
